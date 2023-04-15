@@ -4,19 +4,16 @@ import { Observable, map } from 'rxjs';
 import { PaginatedUsers, User } from '../interfaces/users';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsersService {
+  private baseUrl: string = 'https://reqres.in/api/users';
 
-  private baseUrl: string = 'https://reqres.in/api/users'
+  constructor(private http: HttpClient) {}
 
-  constructor( private http: HttpClient ) { }
-
-  loadPage( page: number ): Observable<User[]> {
-    return this.http.get<PaginatedUsers>( this.baseUrl, { params: { page: page } } )
-      .pipe(
-        map( response => response.data )
-      );
+  loadPage(page: number): Observable<User[]> {
+    return this.http
+      .get<PaginatedUsers>(this.baseUrl, { params: { page: page } })
+      .pipe(map((response) => response.data));
   }
-
 }
